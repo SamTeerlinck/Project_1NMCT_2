@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=MusicPlayer
+Comment=Starts the Music Player python app
+Icon=/usr/share/pixmaps/pimixer.xpm
+Exec=lxterminal -t "Starting Music Player" --working-directory=/home/pi/Music/musicplayer -e ./StartMusicPlayer.sh 
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;
