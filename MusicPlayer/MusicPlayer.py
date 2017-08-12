@@ -2,10 +2,16 @@ import os
 
 import pygame
 
-from tkinter.filedialog import askdirectory
-from tkinter import *
+from Tkinter import *
+import tkFileDialog
 
 import random
+
+import MySQLdb
+
+
+db = MySQLdb.connect("localhost", "root", "root", "musicplayer")
+curs=db.cursor()
 
 root = Tk()
 root.minsize(320,240)
@@ -23,7 +29,7 @@ index = 0
 numberrandom = 0
  
 def directorychooser():
-	directory = askdirectory()
+	directory = tkFileDialog.askdirectory()
 	os.chdir(directory)
 	
 	for files in os.listdir(directory):
@@ -33,6 +39,8 @@ def directorychooser():
 	pygame.mixer.init()
 	pygame.mixer.music.load(listofsongs[0])
 	pygame.mixer.music.play()
+	curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
+	db.commit()
 	v.set(listofsongs[index].replace(".mp3",""))
 	
 	
@@ -65,12 +73,16 @@ def nextsong(event):
 		index = numberrandom
 		pygame.mixer.music.load(listofsongs[index])
 		pygame.mixer.music.play()
+		curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
+		db.commit()
 		updatelabel()
 	else:
 		if index < len(listofsongs)-1:
 			index += 1
 			pygame.mixer.music.load(listofsongs[index])
 			pygame.mixer.music.play()
+			curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
+			db.commit()
 			updatelabel()
 
 def prevsong(event):
@@ -84,12 +96,16 @@ def prevsong(event):
 		index = numberrandom
 		pygame.mixer.music.load(listofsongs[index])
 		pygame.mixer.music.play()
+		curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
+		db.commit()
 		updatelabel()
 	else:
 		if index > 0:
 			index -= 1
 			pygame.mixer.music.load(listofsongs[index])
 			pygame.mixer.music.play()
+			curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
+			db.commit()
 			updatelabel()
 
 
@@ -109,7 +125,7 @@ listofsongs.reverse()
 
 indexforloop = 1
 for items in listofsongs:
-	listbox.insert(0,indexforloop + ". " + items.replace(".mp3",""))
+	listbox.insert(0,str(indexforloop) + ". " + items.replace(".mp3",""))
 	indexforloop += 1
 
 listofsongs.reverse()
