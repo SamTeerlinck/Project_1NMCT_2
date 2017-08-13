@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Top5
+Comment=Starts the Music Player python app
+Icon=/usr/share/pixmaps/gksu-root-terminal.png
+Exec=lxterminal -t "Showing top 5" --working-directory=/home/pi/Music/top -e ./StartTop.sh 
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;
