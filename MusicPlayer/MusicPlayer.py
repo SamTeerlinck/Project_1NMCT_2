@@ -1,3 +1,5 @@
+#Here we import all the required libraries
+
 import os
 
 import pygame
@@ -9,10 +11,11 @@ import random
 
 import MySQLdb
 
-
+#Connect to the database with played songs
 db = MySQLdb.connect("localhost", "root", "root", "musicplayer")
 curs=db.cursor()
 
+#Create Tkinter screen
 root = Tk()
 root.minsize(320,240)
 
@@ -27,7 +30,8 @@ shufflevar.set(0)
  
 index = 0
 numberrandom = 0
- 
+
+#Choose the directory with the songs 
 def directorychooser():
 	directory = tkFileDialog.askdirectory()
 	os.chdir(directory)
@@ -36,23 +40,28 @@ def directorychooser():
 		if files.endswith(".mp3"):
 			listofsongs.append(files)
 			
+	#Start playing the first song
 	pygame.mixer.init()
 	pygame.mixer.music.load(listofsongs[0])
 	pygame.mixer.music.play()
+	
+	#Send to database
 	curs.execute("INSERT INTO playedsongs (song, playeddate, playedtime) values(%s, CURRENT_DATE(), NOW())", (listofsongs[index].replace(".mp3","")))
 	db.commit()
 	v.set(listofsongs[index].replace(".mp3",""))
 	
 	
-	
+#Start directorychooser	
 directorychooser()
- 
+
+#Update the label with the song name
 def updatelabel():
 	global index
 	global songname
 	v.set(listofsongs[index].replace(".mp3",""))
-	#return songname
+	#Return songname
 
+#Pause when it's playing, play when it's paused
 def playpause(event):
 	global index
 	if pausebutton["text"] == 'Pause':
@@ -62,8 +71,10 @@ def playpause(event):
 		pygame.mixer.music.unpause()
 		pausebutton["text"] = 'Pause'
 	
+#Next song in the list (+1)
 def nextsong(event):
 	global index
+	#Check if shuffled
 	if shufflevar.get() == 1:
 		numberrandom = random.randint(0,len(listofsongs)-1)
 		
@@ -85,8 +96,10 @@ def nextsong(event):
 			db.commit()
 			updatelabel()
 
+#Previous song in the list (-1)
 def prevsong(event):
 	global index
+	#Check if shuffled
 	if shufflevar.get() == 1:
 		numberrandom = random.randint(0,len(listofsongs)-1)
 		
@@ -108,13 +121,13 @@ def prevsong(event):
 			db.commit()
 			updatelabel()
 
-
+#Stop playing song and clear label
 def stopsong(event):
 	pygame.mixer.music.stop()
 	v.set("")
-	#return songname
 
 
+#Tkinter objects
 label = Label(root,text='Selected songs:')
 label.place(x=5,y=5)
 
