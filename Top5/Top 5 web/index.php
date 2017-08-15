@@ -78,6 +78,7 @@ tr:nth-child(even) {
 		  <tr>
 			<td>Nr. 1</td>
 			<td>Stayin' Alive - Bee Gees</td>
+			<!-- Here you fill in the php variables if you're using the real data ($result) -->
 			<td>8</td>
 		  </tr>
 		  <tr>
