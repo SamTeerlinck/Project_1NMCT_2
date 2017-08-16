@@ -59,8 +59,8 @@ tr:nth-child(even) {
   <nav id="topnav">
     <ul class="clear">
       <li class="active first"><a href="index.html">Top 5</a></li>
-	  <li><a href="#">Portfolio</a></li>
-      <li><a href="#">Instructables</a></li>
+	  <li><a href="http://student.howest.be/sam.teerlinck/portfolio/">Portfolio</a></li>
+      <li><a href="https://www.instructables.com/id/Touchscreen-Musicbox-With-Lightshow-20/">Instructables</a></li>
     </ul>
   </nav>
 </div>
